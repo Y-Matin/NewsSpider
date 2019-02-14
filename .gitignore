@@ -1,0 +1,14 @@
+*.pyc
+*.egg-info
+build
+dist
+/bin
+/include
+/lib
+/local
+/man
+nosetests.xml
+.coverage
+.tox
+.idea
+.cache
