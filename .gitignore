@@ -12,3 +12,4 @@ nosetests.xml
 .tox
 .idea
 .cache
+/新闻正文/
