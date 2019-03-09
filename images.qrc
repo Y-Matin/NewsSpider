@@ -1,7 +1,17 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource>
-       <file>images/black.png</file>
        <file>images/blue.png</file>
        <file>images/qian.png</file>
+       <file>images/once.png</file>
+       <file>images/more.png</file>
+       <file>images/update.png</file>
+       <file>images/help.png</file>
+       <file>images/about.png</file>
+       <file>images/addFile.png</file>
+       <file>images/modifyFile.png</file>
+       <file>images/spider.png</file>
+       <file>images/extract.png</file>
+       <file>images/reset.png</file>
+       <file>images/feedBack.png</file>
     </qresource>
 </RCC>
