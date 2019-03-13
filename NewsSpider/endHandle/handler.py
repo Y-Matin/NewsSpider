@@ -2,6 +2,9 @@ import  re
 import os
 from bs4 import BeautifulSoup as bs4
 
+from NewsSpider.readability.readability import Document
+
+
 def removeTags(html):
     bs = bs4(html,'lxml')
     # 格式化html代码
@@ -26,3 +29,12 @@ def saveToText(title,content):
         f.close()
     print('save'+title+'成功！')
     return path+os.path.sep+title+'.txt'
+
+def parseLocalFile(filepath):
+    file = open(filepath,'r',encoding='utf-8')
+    text = file.read()
+    doc = Document(text)
+    title = doc.title()
+    summary = doc.summary()
+    text = removeTags(summary)
+    saveToText(title,text)

@@ -1,5 +1,7 @@
-<!DOCTYPE RCC><RCC version="1.0">
+<!DOCTYPE RCC>
+<RCC version="1.0">
     <qresource>
+        <!--命令：pyrcc5 -o images_rc.py images.qrc-->
        <file>images/blue.png</file>
        <file>images/qian.png</file>
        <file>images/once.png</file>
@@ -13,5 +15,6 @@
        <file>images/extract.png</file>
        <file>images/reset.png</file>
        <file>images/feedBack.png</file>
+       <file>images/local.png</file>
     </qresource>
 </RCC>

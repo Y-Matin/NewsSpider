@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>548</width>
-    <height>467</height>
+    <width>550</width>
+    <height>482</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,7 +41,7 @@
        <widget class="QLineEdit" name="lineEdit">
         <property name="font">
          <font>
-          <family>Agency FB</family>
+          <family>Bahnschrift SemiLight</family>
           <pointsize>12</pointsize>
          </font>
         </property>
@@ -146,13 +146,6 @@
      </layout>
     </item>
     <item>
-     <widget class="Line" name="line">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-     </widget>
-    </item>
-    <item>
      <widget class="QTextBrowser" name="textBrowser">
       <property name="html">
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -163,6 +156,13 @@ p, li { white-space: pre-wrap; }
       </property>
      </widget>
     </item>
+    <item>
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -170,7 +170,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>548</width>
+     <width>550</width>
      <height>29</height>
     </rect>
    </property>
@@ -180,6 +180,7 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="once"/>
     <addaction name="more"/>
+    <addaction name="local"/>
    </widget>
    <widget class="QMenu" name="menus">
     <property name="title">
@@ -284,6 +285,15 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>反馈</string>
+   </property>
+  </action>
+  <action name="local">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/images/local.png</normaloff>:/images/local.png</iconset>
+   </property>
+   <property name="text">
+    <string>本地导入</string>
    </property>
   </action>
  </widget>
