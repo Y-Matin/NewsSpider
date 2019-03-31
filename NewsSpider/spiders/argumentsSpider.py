@@ -41,7 +41,7 @@ class ArgumentsSpider(scrapy.Spider):
         doc = Document(html)
         summary = doc.summary()
         title = doc.title()
-        print(summary)
+        # print(summary)
         text = removeTags(summary)
         contenPath = saveToText(title, text)
         item = NewsItem()
@@ -49,6 +49,7 @@ class ArgumentsSpider(scrapy.Spider):
         item['url'] = response.url
         item['contenPath'] = contenPath
         yield item
+
 
     def getUrl(self):
         if self.data:

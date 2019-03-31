@@ -9,12 +9,16 @@
        <file>images/update.png</file>
        <file>images/help.png</file>
        <file>images/about.png</file>
-       <file>images/addFile.png</file>
-       <file>images/modifyFile.png</file>
+       <!--<file>images/addFile.png</file>-->
+       <!--<file>images/modifyFile.png</file>-->
        <file>images/spider.png</file>
        <file>images/extract.png</file>
        <file>images/reset.png</file>
        <file>images/feedBack.png</file>
        <file>images/local.png</file>
+       <file>images/me.png</file>
+       <file>images/ITBoy.png</file>
+       <file>images/database.png</file>
+       <file>images/file.png</file>
     </qresource>
 </RCC>

@@ -1,7 +1,9 @@
-*.pyc
+﻿*.pyc
 *.egg-info
 build
 dist
+platforms/
+*.spec
 /bin
 /include
 /lib

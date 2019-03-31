@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>550</width>
-    <height>482</height>
+    <width>582</width>
+    <height>594</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -147,6 +147,9 @@
     </item>
     <item>
      <widget class="QTextBrowser" name="textBrowser">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
       <property name="html">
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -154,12 +157,8 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'SimSun'; font-size:9.07563pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9.07563pt;&quot;&gt;*****************&lt;/span&gt;&lt;span style=&quot; font-size:9.07563pt; font-weight:600;&quot;&gt;日志信息&lt;/span&gt;&lt;span style=&quot; font-size:9.07563pt;&quot;&gt;******************&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="Line" name="line">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
+      <property name="textInteractionFlags">
+       <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
       </property>
      </widget>
     </item>
@@ -170,7 +169,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>550</width>
+     <width>582</width>
      <height>29</height>
     </rect>
    </property>
@@ -186,8 +185,8 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>设置</string>
     </property>
-    <addaction name="addFile"/>
-    <addaction name="modifyFile"/>
+    <addaction name="database"/>
+    <addaction name="filePath"/>
    </widget>
    <widget class="QMenu" name="menu">
     <property name="title">
@@ -217,6 +216,9 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>关于</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
   </action>
   <action name="help">
    <property name="icon">
@@ -226,6 +228,9 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>帮助</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
+   </property>
   </action>
   <action name="update">
    <property name="icon">
@@ -234,6 +239,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>更新</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+U</string>
    </property>
   </action>
   <action name="once">
@@ -247,6 +255,9 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>单次爬取</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
    <property name="visible">
     <bool>true</bool>
    </property>
@@ -259,23 +270,8 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>批量爬取</string>
    </property>
-  </action>
-  <action name="addFile">
-   <property name="icon">
-    <iconset resource="images.qrc">
-     <normaloff>:/images/addFile.png</normaloff>:/images/addFile.png</iconset>
-   </property>
-   <property name="text">
-    <string>新增配置文件</string>
-   </property>
-  </action>
-  <action name="modifyFile">
-   <property name="icon">
-    <iconset resource="images.qrc">
-     <normaloff>:/images/modifyFile.png</normaloff>:/images/modifyFile.png</iconset>
-   </property>
-   <property name="text">
-    <string>修改配置文件</string>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
    </property>
   </action>
   <action name="feedBack">
@@ -286,6 +282,9 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>反馈</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
   </action>
   <action name="local">
    <property name="icon">
@@ -294,6 +293,33 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>本地导入</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="database">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/images/database.png</normaloff>:/images/database.png</iconset>
+   </property>
+   <property name="text">
+    <string>数据库</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="filePath">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/images/file.png</normaloff>:/images/file.png</iconset>
+   </property>
+   <property name="text">
+    <string>文件路径</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
    </property>
   </action>
  </widget>
