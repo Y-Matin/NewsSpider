@@ -1,5 +1,4 @@
 from scrapy import cmdline
-import hello
 import sys
 # from PyQt5.QtWidgets import QApplication, QMainWindow
 # app = QApplication(sys.argv)

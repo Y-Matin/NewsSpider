@@ -1,3 +1,5 @@
+import codecs
+import configparser
 import shlex
 import threading
 import traceback
@@ -63,6 +65,7 @@ from setting import Ui_settings
 
 
 class MainScreen(QMainWindow,Ui_MainText):
+    '''软件的主界面'''
     successCount = 0
     failedCount = 0
     log = None
@@ -189,7 +192,7 @@ class MainScreen(QMainWindow,Ui_MainText):
                     line = p.stdout.readline().decode('utf-8', 'ignore')
                     line = line.strip()
                     if line:
-                        print('output: [{}]'.format(line))
+                        # print('output: [{}]'.format(line))
                         self.log.setText('{}'.format(line))
                         self.log.show()
                         # 实现实时刷新界面，一般用于耗时的程序或者会对界面修改的程序
@@ -262,23 +265,111 @@ class MainScreen(QMainWindow,Ui_MainText):
 
 
 class settingsScreen(QWidget,Ui_settings):
+    '''软件的设置界面'''
 
+    configFile = 'data/config.ini'
+    configForDB = '数据库配置'
+    linkDB = '连接数据库'
+    database = '数据库'
+    host ='hostname'
+    databaseName = 'databasename'
+    user = '用户名'
+    passwd = '密码'
+    file = '文件'
+    fileP = '文件保存路径'
+    update = '更新'
+    checkForUpdate = '检测更新'
+    updateSpace = '更新间隔'
+    updateTime= '间隔时间'
+    
     def __init__(self,parent= None):
         super(settingsScreen, self).__init__(parent)
         self.setupUi(self)
-        # self.readConfig()
+        self.readConfig()
+        # 将 应用按钮 与 保存配置文件 关联
+        self.apply.clicked.connect(self.writeConfig)
+
 
     def readConfig(self):
-        settings = QSettings("data/config.ini", QSettings.IniFormat)
-        # settings.setValue("pos", QVariant(self.pos()))
-        # settings.setValue("size", QVariant(self.size()))
+        if not os.path.exists(self.configFile):
+            self.createConfig()
+        else:
+            config = configparser.ConfigParser()
+            config.read(self.configFile,encoding="utf-8-sig")
+            isLink = config.getboolean(self.configForDB,self.linkDB)
+            dbtype = config.get(self.configForDB,self.database)
+            host = config.get(self.configForDB,self.host)
+            dbName = config.get(self.configForDB,self.databaseName)
+            userN = config.get(self.configForDB,self.user)
+            passW = config.get(self.configForDB,self.passwd)
+            fileP = config.get(self.file,self.fileP)
+            isCheckUpdate = config.getboolean(self.update,self.checkForUpdate)
+            isCheckSpace = config.getboolean(self.update,self.updateSpace)
+            updateSpace = config.getint(self.update,self.updateTime)
+
+            self.groupDB.setChecked(isLink)
+            # 获取下拉框的候选者，判断配置文件中的value是否在范围内
+            count = self.databaseType.count()
+            list = []
+            for i in range(count):
+                list.append(self.databaseType.itemText(i))
+            index = list.index(dbtype)
+            # self.databaseType.itemText(index)
+
+            self.databaseType.setCurrentIndex(index)
+
+            self.HostName.setText(host)
+            self.DatabaseName.setText(dbName)
+            self.userName.setText(userN)
+            self.password.setText(passW)
+            self.filePath.setText(fileP)
+            self.groupUpdate.setChecked(isCheckUpdate)
+            self.checkBox.setChecked(isCheckSpace)
+            self.spinBox.setValue(updateSpace)
 
 
-import  time
+
+    def createConfig(self):
+        config = configparser.ConfigParser()
+        config.read(self.configFile)
+        config.add_section(self.configForDB)
+        config.set(self.configForDB, self.linkDB, "false")
+        config.set(self.configForDB, self.database, "MongoDB")
+        config.set(self.configForDB, self.host, "")
+        config.set(self.configForDB, self.databaseName, "")
+        config.set(self.configForDB, self.user, "")
+        config.set(self.configForDB, self.passwd, "")
+        config.add_section(self.file)
+        config.set(self.file, self.fileP, "新闻正文")
+        config.add_section(self.update)
+        config.set(self.update, self.checkForUpdate, "false")
+        config.set(self.update, self.updateSpace, "false")
+        config.set(self.update, self.updateTime, "24")
+        f = open("data/Config.ini", 'w', encoding='utf-8')
+        config.write(f)
+        f.close()
+    def writeConfig(self):
+        config = configparser.ConfigParser()
+        config.read(self.configFile, encoding="utf-8-sig")
+        config.set(self.configForDB, self.linkDB, str(self.groupDB.isChecked()))
+        config.set(self.configForDB, self.database, self.databaseType.currentText())
+        config.set(self.configForDB, self.host, self.HostName.text())
+        config.set(self.configForDB, self.databaseName, self.DatabaseName.text())
+        config.set(self.configForDB, self.user, self.userName.text())
+        config.set(self.configForDB, self.passwd, self.password.text())
+        config.set(self.file, self.fileP, self.filePath.text())
+        config.set(self.update, self.checkForUpdate, str(self.groupUpdate.isChecked()))
+        config.set(self.update, self.updateSpace, str(self.checkBox.isChecked()))
+        config.set(self.update, self.updateTime, str(self.spinBox.value()))
+        f = open("data/Config.ini", 'w', encoding='utf-8')
+        config.write(f)
+        f.close()
+
+
 class Backend(QThread):
+    '''用于发出更新text并发出信号，触发textbrowser更新显示'''
     update_date = pyqtSignal(str)
     text = 'init'
-    last=''
     def show(self):
         # data = QDateTime.currentDateTime()
         self.update_date.emit((str(self.text)))

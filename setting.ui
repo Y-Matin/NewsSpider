@@ -66,7 +66,7 @@
        <item row="0" column="0">
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QGroupBox" name="groupBox">
+          <widget class="QGroupBox" name="groupDB">
            <property name="title">
             <string>数据库配置</string>
            </property>
@@ -131,7 +131,7 @@
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_7">
                 <item>
-                 <widget class="QComboBox" name="comboBox">
+                 <widget class="QComboBox" name="databaseType">
                   <property name="font">
                    <font>
                     <family>Bahnschrift Light</family>
@@ -173,7 +173,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBox_2">
+          <widget class="QGroupBox" name="groupFile">
            <property name="title">
             <string>文件路径</string>
            </property>
@@ -209,7 +209,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBox_5">
+          <widget class="QGroupBox" name="groupUpdate">
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;萨达&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
@@ -397,7 +397,7 @@ p, li { white-space: pre-wrap; }
        <item row="0" column="0">
         <layout class="QVBoxLayout" name="verticalLayout_5" stretch="2,3">
          <item>
-          <widget class="QGroupBox" name="groupBox_3">
+          <widget class="QGroupBox" name="groupSoft">
            <property name="title">
             <string>软件信息</string>
            </property>
@@ -461,7 +461,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBox_4">
+          <widget class="QGroupBox" name="groupLog">
            <property name="title">
             <string>更新说明</string>
            </property>
