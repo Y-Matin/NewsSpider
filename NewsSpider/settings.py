@@ -13,8 +13,8 @@ BOT_NAME = 'NewsSpider'
 
 SPIDER_MODULES = ['NewsSpider.spiders']
 NEWSPIDER_MODULE = 'NewsSpider.spiders'
-MONGO_URL = 'localhost'
-MONGO_DB = 'NEWS'
+# MONGO_URL = 'localhost'
+# MONGO_DB = 'NEWS'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'NewsSpider (+http://www.yourdomain.com)'

@@ -142,11 +142,6 @@
                     <string>MongoDB</string>
                    </property>
                   </item>
-                  <item>
-                   <property name="text">
-                    <string>MySQL</string>
-                   </property>
-                  </item>
                  </widget>
                 </item>
                 <item>
@@ -238,6 +233,9 @@
                  <font>
                   <family>Bahnschrift SemiLight</family>
                  </font>
+                </property>
+                <property name="maximum">
+                 <number>24</number>
                 </property>
                 <property name="value">
                  <number>24</number>
