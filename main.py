@@ -232,7 +232,7 @@ class MainScreen(QMainWindow,Ui_MainText):
                         # 实现实时刷新界面，一般用于耗时的程序或者会对界面修改的程序
                         QApplication.processEvents()
                 if p.returncode == 0:
-                    print('Subprogram success')
+                    # print('Subprogram success')
                     QMessageBox.information(self, '提示', '爬取成功！')
                     self.successCount = self.successCount + 1
                 else:
@@ -258,7 +258,6 @@ class MainScreen(QMainWindow,Ui_MainText):
         absolute_path = QFileDialog.getOpenFileName(self, 'Open file','/', fileType)
         filePath = absolute_path[0];
         self.lineEdit.setText(filePath)
-        pass
 
     def showLog(self, text):
         self.textBrowser.append(text)
@@ -288,6 +287,7 @@ class settingsScreen(QWidget,Ui_settings):
         self.readConfig()
         # 将 应用按钮 与 保存配置文件 关联
         self.apply.clicked.connect(self.writeConfig)
+        self.toolButton.clicked.connect(self.clickOnChoose)
 
 
     def readConfig(self):
@@ -327,8 +327,6 @@ class settingsScreen(QWidget,Ui_settings):
             self.checkBox.setChecked(isCheckSpace)
             self.spinBox.setValue(updateSpace)
 
-
-
     def createConfig(self):
         config = configparser.ConfigParser()
         config.read(self.configFile)
@@ -345,7 +343,12 @@ class settingsScreen(QWidget,Ui_settings):
         config.set(self.update, self.checkForUpdate, "false")
         config.set(self.update, self.updateSpace, "false")
         config.set(self.update, self.updateTime, "24")
-        f = open("data/Config.ini", 'w', encoding='utf-8')
+        curdir = os.getcwd()
+        folderName = 'data'
+        path = curdir + os.path.sep + folderName
+        if not os.path.exists(path):
+            os.makedirs(path)
+        f = open(self.configFile, 'w', encoding='utf-8')
         config.write(f)
         f.close()
     def writeConfig(self):
@@ -364,7 +367,11 @@ class settingsScreen(QWidget,Ui_settings):
         f = open("data/Config.ini", 'w', encoding='utf-8')
         config.write(f)
         f.close()
+        QMessageBox.information(self, '提示', '保存成功！')
 
+    def clickOnChoose(self):
+        absolute_path = QFileDialog.getExistingDirectory(self,'选择保存路径','/')
+        self.filePath.setText(absolute_path)
 
 class Backend(QThread):
     '''用于发出更新text并发出信号，触发textbrowser更新显示'''
