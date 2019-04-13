@@ -288,44 +288,45 @@ class settingsScreen(QWidget,Ui_settings):
         # 将 应用按钮 与 保存配置文件 关联
         self.apply.clicked.connect(self.writeConfig)
         self.toolButton.clicked.connect(self.clickOnChoose)
+        self.reset.clicked.connect(self.clickOnReset)
 
 
     def readConfig(self):
         if not os.path.exists(self.configFile):
             self.createConfig()
-        else:
-            config = configparser.ConfigParser()
-            config.read(self.configFile,encoding="utf-8-sig")
-            isLink = config.getboolean(self.configForDB,self.linkDB)
-            dbtype = config.get(self.configForDB,self.database)
-            host = config.get(self.configForDB,self.host)
-            dbName = config.get(self.configForDB,self.databaseName)
-            userN = config.get(self.configForDB,self.user)
-            passW = config.get(self.configForDB,self.passwd)
-            fileP = config.get(self.file,self.fileP)
-            isCheckUpdate = config.getboolean(self.update,self.checkForUpdate)
-            isCheckSpace = config.getboolean(self.update,self.updateSpace)
-            updateSpace = config.getint(self.update,self.updateTime)
 
-            self.groupDB.setChecked(isLink)
-            # 获取下拉框的候选者，判断配置文件中的value是否在范围内
-            count = self.databaseType.count()
-            list = []
-            for i in range(count):
-                list.append(self.databaseType.itemText(i))
-            index = list.index(dbtype)
-            # self.databaseType.itemText(index)
+        config = configparser.ConfigParser()
+        config.read(self.configFile,encoding="utf-8-sig")
+        isLink = config.getboolean(self.configForDB,self.linkDB)
+        dbtype = config.get(self.configForDB,self.database)
+        host = config.get(self.configForDB,self.host)
+        dbName = config.get(self.configForDB,self.databaseName)
+        userN = config.get(self.configForDB,self.user)
+        passW = config.get(self.configForDB,self.passwd)
+        fileP = config.get(self.file,self.fileP)
+        isCheckUpdate = config.getboolean(self.update,self.checkForUpdate)
+        isCheckSpace = config.getboolean(self.update,self.updateSpace)
+        updateSpace = config.getint(self.update,self.updateTime)
 
-            self.databaseType.setCurrentIndex(index)
+        self.groupDB.setChecked(isLink)
+        # 获取下拉框的候选者，判断配置文件中的value是否在范围内
+        count = self.databaseType.count()
+        list = []
+        for i in range(count):
+            list.append(self.databaseType.itemText(i))
+        index = list.index(dbtype)
+        # self.databaseType.itemText(index)
 
-            self.HostName.setText(host)
-            self.DatabaseName.setText(dbName)
-            self.userName.setText(userN)
-            self.password.setText(passW)
-            self.filePath.setText(fileP)
-            self.groupUpdate.setChecked(isCheckUpdate)
-            self.checkBox.setChecked(isCheckSpace)
-            self.spinBox.setValue(updateSpace)
+        self.databaseType.setCurrentIndex(index)
+
+        self.HostName.setText(host)
+        self.DatabaseName.setText(dbName)
+        self.userName.setText(userN)
+        self.password.setText(passW)
+        self.filePath.setText(fileP)
+        self.groupUpdate.setChecked(isCheckUpdate)
+        self.checkBox.setChecked(isCheckSpace)
+        self.spinBox.setValue(updateSpace)
 
     def createConfig(self):
         config = configparser.ConfigParser()
@@ -372,6 +373,18 @@ class settingsScreen(QWidget,Ui_settings):
     def clickOnChoose(self):
         absolute_path = QFileDialog.getExistingDirectory(self,'选择保存路径','/')
         self.filePath.setText(absolute_path)
+
+    def clickOnReset(self):
+        self.groupDB.setChecked(False)
+        self.databaseType.setCurrentIndex(0)
+        self.HostName.setText('')
+        self.DatabaseName.setText('')
+        self.userName.setText('')
+        self.password.setText('')
+        self.filePath.setText('新闻正文')
+        self.groupUpdate.setChecked(False)
+        self.checkBox.setChecked(False)
+        self.spinBox.setValue(24)
 
 class Backend(QThread):
     '''用于发出更新text并发出信号，触发textbrowser更新显示'''
