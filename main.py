@@ -12,6 +12,7 @@ from scrapy.utils.project import get_project_settings
 
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox, QWidget
+from NewsSpider.endHandle.handler import sendEmail
 import NewsSpider.settings
 import NewsSpider.spiders
 
@@ -289,7 +290,7 @@ class settingsScreen(QWidget,Ui_settings):
         self.apply.clicked.connect(self.writeConfig)
         self.toolButton.clicked.connect(self.clickOnChoose)
         self.reset.clicked.connect(self.clickOnReset)
-
+        self.submit.clicked.connect(self.clickOnSubmit)
 
     def readConfig(self):
         if not os.path.exists(self.configFile):
@@ -385,6 +386,17 @@ class settingsScreen(QWidget,Ui_settings):
         self.groupUpdate.setChecked(False)
         self.checkBox.setChecked(False)
         self.spinBox.setValue(24)
+
+    def clickOnSubmit(self):
+        text = self.Feedback.toPlainText()
+        ret  = sendEmail(text)
+        if ret:
+            print('反馈成功')
+            QMessageBox.information(self, '提示', '发送成功！')
+        else:
+            print('反馈失败')
+            QMessageBox.information(self, '提示', '发送失败！')
+
 
 class Backend(QThread):
     '''用于发出更新text并发出信号，触发textbrowser更新显示'''
