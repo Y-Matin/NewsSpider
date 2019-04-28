@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+import json
+from urllib.parse import urlparse
+
+import requests
+
 import scrapy
 import xlrd
 
@@ -13,7 +18,10 @@ from NewsSpider.readability.readability import Document
 class ArgumentsSpider(scrapy.Spider):
     name = 'argumentsSpider'
     start_urls = []
-
+    domainURLS = {
+        'www.sohu.com/c/': ['http://v2.sohu.com/public-api/feed?scene=CATEGORY','http://www.sohu.com/a/'],
+        'news.qq.com/': 'https://pacaio.match.qq.com/irs/rcd?cid=137&token=d0f13d594edfc180f5bf6b845456f3ea&id=&ext=top',
+        'www.toutiao.com/ch/news_hot/':''}
 
     def __init__(self,flag,data, *args, **kwargs):
         ''' 从命令行中获取数据
@@ -53,7 +61,9 @@ class ArgumentsSpider(scrapy.Spider):
 
     def getUrl(self):
         if self.data:
-            self.start_urls.append(self.data)
+            #  插入 批量提取函数
+            listForURLs = self.returnRightURL(self.data)
+            self.start_urls.extend(listForURLs)
 
     def getFile(self):
         # 文件路径中文转码
@@ -65,4 +75,95 @@ class ArgumentsSpider(scrapy.Spider):
         ncols = sheet.ncols  # 列
         for i in range(1,nrows):
             url = sheet.cell(i,0).value
-            self.start_urls.append(url)
+            number = sheet.cell(i,1).value
+            #  插入 批量提取函数
+            listForURLs = self.returnRightURL(url,number)
+            self.start_urls.extend(listForURLs)
+
+    def returnRightURL(self,url,number=None):
+        ''' 判断url是否在可批量提取范围内，如果是，在调用对应的提取函数'''
+        # 解析url
+        urlParse = urlparse(url)
+        # print(urlParse)
+        yuming = urlParse.netloc
+        path = urlParse.path
+        urlCommon = yuming+path
+        # 初始化number
+        if number == None:
+            number = '0-20'
+        for domain in self.domainURLS:
+            if domain in urlCommon and 'www.sohu.com'.__eq__(yuming):
+                index = path.split('/')[-1]
+                return self.returnSohuURLs(index,number,self.domainURLS[domain])
+            if domain in urlCommon and 'news.qq.com'.__eq__(yuming):
+                return self.returnQQURLs(number,self.domainURLS[domain])
+            if domain in urlCommon and 'www.toutiao.com'.__eq__(yuming):
+                return self.returnTouTiaoURLs()
+
+        urls = [url]
+        return urls
+
+    def returnSohuURLs(self,index,number,dataList):
+        '''用于批量提取搜狐新闻'''
+        extends = '&sceneId=1460&page=1&size=20'
+        page = ''
+        rang = number.split('-')
+
+        start = int(rang[0])
+        end = int(rang[1])
+
+        pageSize = end -start
+        if pageSize <=0:
+            print('后缀为：'+index+'的url所配置的数量不合法==>'+range[0]+':'+range[1])
+        parameter = '&sceneId='+index
+        page = int(end/pageSize)
+        parameter =parameter +'&page='+str(page)+'&size='+str(pageSize)
+        response = requests.get(dataList[0]+parameter)
+        # print(response.status_code)
+        # print(response.text)
+        content = response.text
+        #
+        data = json.loads(content)
+        urls = []
+        for temp in (data):
+            url = dataList[1] + str(temp['id']) + '_' + str(temp['authorId'])
+            urls.append(url)
+        print(urls)
+        return urls
+
+    def returnQQURLs(self,number,req):
+        '''用于批量提取腾讯新闻'''
+        # 腾讯新闻一次返回10 个新闻
+        pageSize = 10
+        rang = number.split('-')
+        start = int(rang[0])
+        end = int(rang[1])
+        pageCount = int((end -start)/pageSize)
+
+        urlList = []
+        expIdsList = []
+        for i in range(pageCount):
+            if i == 0:
+                url2 = req + '&page=' + str(i) + '&expIds='
+            else:
+                url2 = req + '&page=' + str(i) + '&expIds=' + '|'.join(str(id) for id in expIdsList)
+            expIdsList.clear()
+            response = requests.get(url2)
+            conten = json.loads(response.text)
+            dataList = conten.get('data')
+            for temp in dataList:
+                if  (temp['article_type'])==0:
+                    url = temp['vurl']
+                    id = temp['id']
+                    urlList.append(url)
+                    expIdsList.append(id)
+                else:
+                    print('专题链接：'+temp['vurl'])
+        # print('腾讯新闻url数量：%d'%len(urlList))
+        # print(urlList)
+        return urlList
+
+    def returnTouTiaoURLs(self):
+        '''用于批量提取今日头条的新闻'''
+        pass
+        return []

@@ -189,7 +189,7 @@ class MainScreen(QMainWindow,Ui_MainText):
                 p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
                 while p.poll() is None:
-                    line = p.stdout.readline().decode('utf-8', 'ignore')
+                    line = p.stdout.readline().decode('gb18030')
                     line = line.strip()
                     if line:
                         # print('output: [{}]'.format(line))
@@ -200,11 +200,11 @@ class MainScreen(QMainWindow,Ui_MainText):
                 if p.returncode == 0:
                     print('Subprogram success')
                     QMessageBox.information(self,'提示','批量爬取成功！')
+                    self.successCount = self.successCount + 1
                 else:
                     print('Subprogram failed')
                     QMessageBox.critical(self, '提示', '批量爬取失败！')
                     self.failedCount = self.failedCount + 1
-                self.successCount = self.successCount + 1
             except BaseException as e:
                 self.log.show('程序发生异常：', traceback.print_exc())
             self.statusbar.showMessage('结果(成功：'+str(self.successCount)+', 失败：'+str(self.failedCount)+')', 0)
