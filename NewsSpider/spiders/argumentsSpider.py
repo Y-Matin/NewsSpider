@@ -7,7 +7,7 @@ import requests
 import scrapy
 import xlrd
 
-from NewsSpider.endHandle.handler import removeTags, saveToText
+from NewsSpider.endHandle.handler import removeTags, saveToText, getHeader, not_empty
 from NewsSpider.items import NewsItem
 from NewsSpider.readability.readability import Document
 
@@ -21,7 +21,7 @@ class ArgumentsSpider(scrapy.Spider):
     domainURLS = {
         'www.sohu.com/c/': ['http://v2.sohu.com/public-api/feed?scene=CATEGORY','http://www.sohu.com/a/'],
         'news.qq.com/': 'https://pacaio.match.qq.com/irs/rcd?cid=137&token=d0f13d594edfc180f5bf6b845456f3ea&id=&ext=top',
-        'www.toutiao.com/ch/news_hot/':''}
+        'www.toutiao.com/ch/':'https://www.toutiao.com/api/pc/feed/?utm_source=toutiao&widen=1'}
 
     def __init__(self,flag,data, *args, **kwargs):
         ''' 从命令行中获取数据
@@ -87,18 +87,22 @@ class ArgumentsSpider(scrapy.Spider):
         # print(urlParse)
         yuming = urlParse.netloc
         path = urlParse.path
+        pathlist = path.split('/')
+        newList = list(filter(not_empty, pathlist))
         urlCommon = yuming+path
         # 初始化number
         if number == None:
             number = '0-20'
         for domain in self.domainURLS:
             if domain in urlCommon and 'www.sohu.com'.__eq__(yuming):
-                index = path.split('/')[-1]
+                index = pathlist[-1]
                 return self.returnSohuURLs(index,number,self.domainURLS[domain])
-            if domain in urlCommon and 'news.qq.com'.__eq__(yuming):
+            if domain in urlCommon and 'news.qq.com'.__eq__(yuming) and len(newList)==0:
                 return self.returnQQURLs(number,self.domainURLS[domain])
             if domain in urlCommon and 'www.toutiao.com'.__eq__(yuming):
-                return self.returnTouTiaoURLs()
+                # 过滤掉空的path，便于确定 模块 index
+                index = newList[-1]
+                return self.returnTouTiaoURLs(index,number,self.domainURLS[domain])
 
         urls = [url]
         return urls
@@ -132,7 +136,7 @@ class ArgumentsSpider(scrapy.Spider):
         return urls
 
     def returnQQURLs(self,number,req):
-        '''用于批量提取腾讯新闻'''
+        '''用于批量提取腾讯新闻  只提取新闻，不提取专题'''
         # 腾讯新闻一次返回10 个新闻
         pageSize = 10
         rang = number.split('-')
@@ -163,7 +167,43 @@ class ArgumentsSpider(scrapy.Spider):
         # print(urlList)
         return urlList
 
-    def returnTouTiaoURLs(self):
+    def returnTouTiaoURLs(self,index,number,req):
         '''用于批量提取今日头条的新闻'''
-        pass
-        return []
+        # urlPar = urlparse(url)
+        # pathlist = urlPar.path.split('/')
+        # # 过滤掉空的path，便于确定 模块 index
+        # newList = list(filter(not_empty, pathlist))
+        # index = newList[-1]
+        # initUrl = 'https://www.toutiao.com/api/pc/feed/?utm_source=toutiao&widen=1'
+        # &max_behot_time=0&max_behot_time_tmp=0
+        # category=news_hot&
+        max_behot_time = max_behot_time_tmp = 0
+        category = index
+        rang = number.split('-')
+        start = int(rang[0])
+        end = int(rang[1])
+        pageSize = 10
+        pageCount = int((end -start) / pageSize)
+        urlList = []
+        # 请求头 添加cookie信息
+        cookies = requests.cookies.RequestsCookieJar()
+        for i in range(pageCount):
+            reqUrl = req + '&category=%s&max_behot_time=%d&max_behot_time_tmp=%d' % (
+            category, max_behot_time, max_behot_time_tmp)
+
+            print(reqUrl)
+            response = requests.get(reqUrl, headers=getHeader(), cookies=cookies)
+            cookies.update(response.cookies)
+            content = json.loads(response.text)
+            dataList = content['data']
+            for data in dataList:
+                if 'article'.__eq__(data['article_genre']):
+                    itemId = data['item_id']
+                    newsUrl = 'https://www.toutiao.com/a%s' % (itemId)
+                    urlList.append(newsUrl)
+            print('urlList长度：%d'%(len(urlList)))
+            nextDic = content['next']
+            nextId = nextDic['max_behot_time']
+            max_behot_time = max_behot_time_tmp = nextId
+        print(urlList)
+        return urlList

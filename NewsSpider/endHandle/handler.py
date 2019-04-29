@@ -42,6 +42,11 @@ def saveToText(title,content):
 
     if not os.path.exists(path):
         os.makedirs(path)
+
+    table = {ord(f): ord(t) for f, t in zip(
+        u'    ：？《》',
+        u'\/|*:?<>')}
+    titleFinally = title.translate(table)
     with open(path+os.path.sep+title+'.txt','wb') as f:
         f.write(content.encode('utf-8'))
         f.close()
@@ -75,3 +80,18 @@ def sendEmail(text):
     except Exception:  # 如果 try 中的语句没有执行，则会执行下面的 ret=False
         ret = False
     return ret
+
+def not_empty(s):
+    return s and s.strip()
+
+def getHeader():
+    header= {
+        'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:67.0) Gecko/20100101 Firefox/67.0',
+        'Accept':'text/javascript, text/html, application/xml, text/xml, */*',
+        'Accept-Language':'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
+        'Accept-Encoding':'gzip, deflate, br',
+        'X-Requested-With':'XMLHttpRequest',
+        'Content-Type':'application/x-www-form-urlencoded',
+        'Connection':'keep-alive'
+    }
+    return header
