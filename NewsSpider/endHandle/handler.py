@@ -43,15 +43,18 @@ def saveToText(title,content):
     if not os.path.exists(path):
         os.makedirs(path)
 
+    # 解决windows 下 文件名不合法问题
+    # 去掉\/|*字符，将 <>:?"替换为中文字符
+    titleFinally = re.sub('[\\\/|*]', '', title)
     table = {ord(f): ord(t) for f, t in zip(
-        u'    ：？《》',
-        u'\/|*:?<>')}
-    titleFinally = title.translate(table)
-    with open(path+os.path.sep+title+'.txt','wb') as f:
+        u':?<>',
+        u'：？《》')}
+    titleFinally = titleFinally.translate(table)
+    with open(path+os.path.sep+titleFinally+'.txt','wb') as f:
         f.write(content.encode('utf-8'))
         f.close()
-    print('\nsave'+title+'成功！')
-    return path+os.path.sep+title+'.txt'
+    print('\nsave<'+titleFinally+'>成功！')
+    return path+os.path.sep+titleFinally+'.txt'
 
 def parseLocalFile(filepath):
     file = open(filepath,'r',encoding='utf-8')

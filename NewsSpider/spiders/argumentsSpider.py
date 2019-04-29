@@ -122,9 +122,12 @@ class ArgumentsSpider(scrapy.Spider):
         parameter = '&sceneId='+index
         page = int(end/pageSize)
         parameter =parameter +'&page='+str(page)+'&size='+str(pageSize)
-        response = requests.get(dataList[0]+parameter)
-        # print(response.status_code)
-        # print(response.text)
+        # response = requests.get(dataList[0]+parameter)
+
+        # 请求头 添加cookie信息
+        cookies = requests.cookies.RequestsCookieJar()
+        # 添加请求头和cookies
+        response = requests.get(dataList[0]+parameter, headers=getHeader(), cookies=cookies)
         content = response.text
         #
         data = json.loads(content)
@@ -143,16 +146,20 @@ class ArgumentsSpider(scrapy.Spider):
         start = int(rang[0])
         end = int(rang[1])
         pageCount = int((end -start)/pageSize)
-
         urlList = []
         expIdsList = []
+
+        # 请求头 添加cookie信息
+        cookies = requests.cookies.RequestsCookieJar()
         for i in range(pageCount):
             if i == 0:
                 url2 = req + '&page=' + str(i) + '&expIds='
             else:
                 url2 = req + '&page=' + str(i) + '&expIds=' + '|'.join(str(id) for id in expIdsList)
             expIdsList.clear()
-            response = requests.get(url2)
+            # response = requests.get(url2)
+            # 添加请求头和cookies
+            response = requests.get(url2, headers=getHeader(), cookies=cookies)
             conten = json.loads(response.text)
             dataList = conten.get('data')
             for temp in dataList:
@@ -192,6 +199,7 @@ class ArgumentsSpider(scrapy.Spider):
             category, max_behot_time, max_behot_time_tmp)
 
             print(reqUrl)
+            # 添加请求头和cookies
             response = requests.get(reqUrl, headers=getHeader(), cookies=cookies)
             cookies.update(response.cookies)
             content = json.loads(response.text)

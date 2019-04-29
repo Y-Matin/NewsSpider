@@ -49,20 +49,42 @@ import scrapy.pipelines
 import scrapy.core.downloader.handlers.http
 import scrapy.core.downloader.contextfactory
 
-# from PyQt5.QtWidgets import QApplication, QMainWindow
-# app = QApplication(sys.argv)
-# MainWindow = QMainWindow()
-# ui = hello.Ui_Form()
-# ui.setupUi(MainWindow)
-# MainWindow.show()
-#sys.exit(app.exec_())
+from NewsSpider.endHandle.handler import parseLocalFile
 
-filePath = r'c:\Users\YDS\Desktop\testForMore.xlsx'   #testForMore.xlsx ; urls.xlsx
-# cmdline.execute(("scrapy crawl argumentsSpider -a flag=file -a data="+filePath).split())
-from scrapy.crawler import CrawlerProcess
-from scrapy.utils.project import get_project_settings
 
-process = CrawlerProcess(get_project_settings())   #程序意外出错
-process.crawl('argumentsSpider',flag='file',data=filePath )
-process.start()
+def testForExcleFile(filePath):
+
+    # cmdline.execute(("scrapy crawl argumentsSpider -a flag=file -a data="+filePath).split())
+    from scrapy.crawler import CrawlerProcess
+    from scrapy.utils.project import get_project_settings
+
+    process = CrawlerProcess(get_project_settings())  # 程序意外出错
+    process.crawl('argumentsSpider', flag='file', data=filePath)
+    process.start()
+
+def testForUrl(url):
+    from scrapy.crawler import CrawlerProcess
+    from scrapy.utils.project import get_project_settings
+    process = CrawlerProcess(get_project_settings())  # 程序意外出错
+    process.crawl('argumentsSpider', flag='url', data=url)
+    process.start()
+
+
+
+def testForHtmlFile(filePath):
+    parseLocalFile(filePath)
+
+def main():
+    excleFilePath = r'c:\Users\YDS\Desktop\testForMore.xlsx'  # testForMore.xlsx ; urls.xlsx
+    testForExcleFile(excleFilePath)
+
+    # urlForSouhu = 'http://www.sohu.com/c/8/1460'
+    # urlForQQ = 'https://news.qq.com/'
+    # urlForToutiao = 'https://www.toutiao.com/ch/news_hot/'
+    # testForUrl(url)
+
+    # htmlFilePath = ''
+    # testForHtmlFile(htmlFilePath)
+if __name__ == '__main__':
+    main()
 
