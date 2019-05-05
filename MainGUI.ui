@@ -283,7 +283,7 @@ p, li { white-space: pre-wrap; }
     <string>反馈</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+F</string>
+    <string>Ctrl+E</string>
    </property>
   </action>
   <action name="local">

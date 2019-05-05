@@ -224,7 +224,8 @@ class MainScreen(QMainWindow,Ui_MainText):
                 import subprocess
                 p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
                 while p.poll() is None:
-                    line = p.stdout.readline().decode('utf-8', 'ignore')
+                    # line = p.stdout.readline().decode('utf-8', 'ignore')
+                    line = p.stdout.readline().decode('gb18030')
                     line = line.strip()
                     if line:
                         print('output: [{}]'.format(line))
@@ -245,8 +246,30 @@ class MainScreen(QMainWindow,Ui_MainText):
             self.statusbar.showMessage('结果(成功：'+str(self.successCount)+', 失败：'+str(self.failedCount)+')', 0)
         elif self.inputTpye.__eq__('local'):
             print('当前的爬取方式是 本地导入')
-            filePath = self.lineEdit.text()
-            parseLocalFile(filePath)
+            try:
+
+                filePath = self.lineEdit.text()
+                fileList = filePath.split('|')
+
+                self.log.setText('本地解析开始!!')
+                self.log.show()
+                # 实现实时刷新界面，一般用于耗时的程序或者会对界面修改的程序
+                QApplication.processEvents()
+
+                for path in fileList:
+                    self.log.setText('正在解析"%s"' % path)
+                    self.log.show()
+                    # 实现实时刷新界面，一般用于耗时的程序或者会对界面修改的程序
+                    QApplication.processEvents()
+                    parseLocalFile(path)
+                    self.log.setText("解析"+path + "完成！！")
+                    self.log.show()
+                self.log.setText("共" + str(len(fileList)) + "个文件,全部解析完成！！")
+                self.log.show()
+                # 实现实时刷新界面，一般用于耗时的程序或者会对界面修改的程序
+                QApplication.processEvents()
+            except BaseException as e:
+                self.log.show('程序发生异常：', traceback.print_exc())
         else:
             pass
 
@@ -256,9 +279,9 @@ class MainScreen(QMainWindow,Ui_MainText):
             fileType ="excle files (*.xlsx)"
         elif self.inputTpye.__eq__('local'):
             fileType = "html files (*.html)"
-        absolute_path = QFileDialog.getOpenFileName(self, 'Open file','/', fileType)
-        filePath = absolute_path[0];
-        self.lineEdit.setText(filePath)
+        absolute_path = QFileDialog.getOpenFileNames(self, 'Open file','/', fileType)
+        filePath = absolute_path[0]
+        self.lineEdit.setText('|'.join(filePath))
 
     def showLog(self, text):
         self.textBrowser.append(text)

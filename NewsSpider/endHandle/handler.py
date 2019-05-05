@@ -1,6 +1,8 @@
 import configparser
 import  re
 import os
+
+from PyQt5.QtWidgets import QApplication
 from bs4 import BeautifulSoup as bs4
 
 import smtplib

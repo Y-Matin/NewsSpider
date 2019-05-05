@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'MainGUI.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.6
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -186,7 +186,7 @@ class Ui_MainText(object):
         self.more.setText(_translate("MainText", "批量爬取"))
         self.more.setShortcut(_translate("MainText", "Ctrl+M"))
         self.feedBack.setText(_translate("MainText", "反馈"))
-        self.feedBack.setShortcut(_translate("MainText", "Ctrl+F"))
+        self.feedBack.setShortcut(_translate("MainText", "Ctrl+E"))
         self.local.setText(_translate("MainText", "本地导入"))
         self.local.setShortcut(_translate("MainText", "Ctrl+L"))
         self.database.setText(_translate("MainText", "数据库"))
