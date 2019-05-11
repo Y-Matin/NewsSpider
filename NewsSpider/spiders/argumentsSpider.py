@@ -96,13 +96,19 @@ class ArgumentsSpider(scrapy.Spider):
         for domain in self.domainURLS:
             if domain in urlCommon and 'www.sohu.com'.__eq__(yuming):
                 index = pathlist[-1]
-                return self.returnSohuURLs(index,number,self.domainURLS[domain])
+                result =  self.returnSohuURLs(index,number,self.domainURLS[domain])
+                print('由链接“%s”批量提取到%d条网页URL'%(url,len(result)))
+                return result
             if domain in urlCommon and 'news.qq.com'.__eq__(yuming) and len(newList)==0:
-                return self.returnQQURLs(number,self.domainURLS[domain])
+                result =  self.returnQQURLs(number,self.domainURLS[domain])
+                print('由链接“%s”批量提取到%d条网页URL' % (url, len(result)))
+                return result
             if domain in urlCommon and 'www.toutiao.com'.__eq__(yuming):
                 # 过滤掉空的path，便于确定 模块 index
                 index = newList[-1]
-                return self.returnTouTiaoURLs(index,number,self.domainURLS[domain])
+                result = self.returnTouTiaoURLs(index,number,self.domainURLS[domain])
+                print('由链接“%s”批量提取到%d条网页URL' % (url, len(result)))
+                return result
 
         urls = [url]
         return urls
@@ -169,7 +175,8 @@ class ArgumentsSpider(scrapy.Spider):
                     urlList.append(url)
                     expIdsList.append(id)
                 else:
-                    print('专题链接：'+temp['vurl'])
+                    pass
+                    # print('专题链接：'+temp['vurl'])
         # print('腾讯新闻url数量：%d'%len(urlList))
         # print(urlList)
         return urlList
@@ -209,9 +216,9 @@ class ArgumentsSpider(scrapy.Spider):
                     itemId = data['item_id']
                     newsUrl = 'https://www.toutiao.com/a%s' % (itemId)
                     urlList.append(newsUrl)
-            print('urlList长度：%d'%(len(urlList)))
+            # print('urlList长度：%d'%(len(urlList)))
             nextDic = content['next']
             nextId = nextDic['max_behot_time']
             max_behot_time = max_behot_time_tmp = nextId
-        print(urlList)
+        # print(urlList)
         return urlList
