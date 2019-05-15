@@ -98,16 +98,19 @@ class ArgumentsSpider(scrapy.Spider):
                 index = pathlist[-1]
                 result =  self.returnSohuURLs(index,number,self.domainURLS[domain])
                 print('由链接“%s”批量提取到%d条网页URL'%(url,len(result)))
+                # print(result)
                 return result
             if domain in urlCommon and 'news.qq.com'.__eq__(yuming) and len(newList)==0:
                 result =  self.returnQQURLs(number,self.domainURLS[domain])
                 print('由链接“%s”批量提取到%d条网页URL' % (url, len(result)))
+                # print(result)
                 return result
             if domain in urlCommon and 'www.toutiao.com'.__eq__(yuming):
                 # 过滤掉空的path，便于确定 模块 index
                 index = newList[-1]
                 result = self.returnTouTiaoURLs(index,number,self.domainURLS[domain])
                 print('由链接“%s”批量提取到%d条网页URL' % (url, len(result)))
+                # print(result)
                 return result
 
         urls = [url]
