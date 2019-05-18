@@ -20,8 +20,9 @@ def removeTags(html):
     # 去掉标签 tags
     dr = re.compile(r'<[^>]+>',re.S)
     text = dr.sub('',html)
-    # 去掉多余的空行
-    text=re.sub('\s+', '\n', text)
+
+    # 去掉多余的空行 \s{2,} 避免将文章中的空格替换为换行
+    text=re.sub('\s{2,}', '\n', text)
     # dc = re.compile(r'\s+', re.S)
     # text = dc.sub('\n', text)
     return text
