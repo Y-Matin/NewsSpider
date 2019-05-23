@@ -58,14 +58,14 @@ def testForExcleFile(filePath):
     from scrapy.crawler import CrawlerProcess
     from scrapy.utils.project import get_project_settings
 
-    process = CrawlerProcess(get_project_settings())  # 程序意外出错
+    process = CrawlerProcess(get_project_settings())
     process.crawl('argumentsSpider', flag='file', data=filePath)
     process.start()
 
 def testForUrl(url):
     from scrapy.crawler import CrawlerProcess
     from scrapy.utils.project import get_project_settings
-    process = CrawlerProcess(get_project_settings())  # 程序意外出错
+    process = CrawlerProcess(get_project_settings())
     process.crawl('argumentsSpider', flag='url', data=url)
     process.start()
 
@@ -75,7 +75,8 @@ def testForHtmlFile(filePath):
     parseLocalFile(filePath)
 
 def main():
-    excleFilePath = r'c:\Users\YDS\Desktop\testForMore.xlsx'  # testForMore.xlsx ; urls.xlsx
+    # "C:\Users\YDS\Desktop\file\urls.xlsx"
+    excleFilePath = r'c:\Users\YDS\Desktop\file\testForMore.xlsx'  # testForMore.xlsx ; urls.xlsx
     testForExcleFile(excleFilePath)
 
     # urlForSouhu = 'http://www.sohu.com/c/8/1460'

@@ -104,6 +104,7 @@ class MainScreen(QMainWindow,Ui_MainText):
         self.toolButton.clicked.connect(self.clickOnChooseFile)
 
     def showSettingsByIndex(self,index):
+        '''通过index参数决定显示配置界面的那个子页面'''
         self.settingsGUI.tabWidget.setCurrentIndex(index)
         # setWindowModality要写show函数之前，不然没用
         self.settingsGUI.setWindowModality(Qt.ApplicationModal)
@@ -144,6 +145,7 @@ class MainScreen(QMainWindow,Ui_MainText):
         self.clickOnReset()
 
     def clickOnLocal(self):
+        '''点击菜单栏中 '爬取方式'->'本地导入' 后触发'''
         print('检测到点击local事件')
         self.once.setEnabled(True)
         self.more.setEnabled(True)
@@ -164,6 +166,7 @@ class MainScreen(QMainWindow,Ui_MainText):
         self.lineEdit.setText('')
 
     def clickOnExtract(self):
+        '''点击提取按钮后，触发'''
         print('检测到点击extract事件')
         # try:
         # process = CrawlerProcess(get_project_settings())   #程序意外出错。
@@ -274,6 +277,7 @@ class MainScreen(QMainWindow,Ui_MainText):
             pass
 
     def clickOnChooseFile(self):
+        '''点击toolButton后，触发，显示文件对话框，供用户选择文件'''
         fileType = ''
         if self.inputTpye.__eq__('more'):
             fileType ="excle files (*.xlsx)"
@@ -316,6 +320,7 @@ class settingsScreen(QWidget,Ui_settings):
         self.submit.clicked.connect(self.clickOnSubmit)
 
     def readConfig(self):
+        '''读取配置，在创建配置界面时触发'''
         if not os.path.exists(self.configFile):
             self.createConfig()
 
@@ -353,6 +358,7 @@ class settingsScreen(QWidget,Ui_settings):
         self.spinBox.setValue(updateSpace)
 
     def createConfig(self):
+        '''默认的配置'''
         config = configparser.ConfigParser()
         config.read(self.configFile)
         config.add_section(self.configForDB)
@@ -377,6 +383,7 @@ class settingsScreen(QWidget,Ui_settings):
         config.write(f)
         f.close()
     def writeConfig(self):
+        '''将用户的配置修改保存下来'''
         config = configparser.ConfigParser()
         config.read(self.configFile, encoding="utf-8-sig")
         config.set(self.configForDB, self.linkDB, str(self.groupDB.isChecked()))
@@ -395,10 +402,12 @@ class settingsScreen(QWidget,Ui_settings):
         QMessageBox.information(self, '提示', '保存成功！')
 
     def clickOnChoose(self):
+        '''通过文件对话框，确定文件保存路径'''
         absolute_path = QFileDialog.getExistingDirectory(self,'选择保存路径','/')
         self.filePath.setText(absolute_path)
 
     def clickOnReset(self):
+        '''点击重置按钮，触发'''
         self.groupDB.setChecked(False)
         self.databaseType.setCurrentIndex(0)
         self.HostName.setText('')
@@ -411,7 +420,11 @@ class settingsScreen(QWidget,Ui_settings):
         self.spinBox.setValue(24)
 
     def clickOnSubmit(self):
+        '''点击反馈功能后，触发 发邮件流程'''
         text = self.Feedback.toPlainText()
+        if not text.strip():
+            QMessageBox.information(self, '提示', '好像没有填写反馈信息哦！')
+            return None
         ret  = sendEmail(text)
         if ret:
             print('反馈成功')
@@ -426,11 +439,13 @@ class Backend(QThread):
     update_date = pyqtSignal(str)
     text = 'init'
     def show(self):
+        '''发出信号，触发与之关联的函数。'''
         # data = QDateTime.currentDateTime()
         self.update_date.emit((str(self.text)))
         self.text=''
 
     def setText(self,log):
+        '''设置要显示的日志'''
         self.text = log
 
 

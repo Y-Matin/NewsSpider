@@ -75,7 +75,11 @@ class ArgumentsSpider(scrapy.Spider):
         ncols = sheet.ncols  # 列
         for i in range(1,nrows):
             url = sheet.cell(i,0).value
-            number = sheet.cell(i,1).value
+            number=None
+            try:
+                number= sheet.cell(i,1).value
+            except BaseException as e:
+                pass
             #  插入 批量提取函数
             listForURLs = self.returnRightURL(url,number)
             self.start_urls.extend(listForURLs)
