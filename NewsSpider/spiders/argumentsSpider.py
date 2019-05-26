@@ -92,6 +92,7 @@ class ArgumentsSpider(scrapy.Spider):
         yuming = urlParse.netloc
         path = urlParse.path
         pathlist = path.split('/')
+        # 去掉最后为空的path：以/结尾的url，统一管理。如https://www.toutiao.com/ch/news_hot/
         newList = list(filter(not_empty, pathlist))
         urlCommon = yuming+path
         # 初始化number
