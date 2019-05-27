@@ -100,7 +100,7 @@ class ArgumentsSpider(scrapy.Spider):
             number = '0-20'
         for domain in self.domainURLS:
             if domain in urlCommon and 'www.sohu.com'.__eq__(yuming):
-                index = pathlist[-1]
+                index = newList[-1]
                 result =  self.returnSohuURLs(index,number,self.domainURLS[domain])
                 print('由链接“%s”批量提取到%d条网页URL'%(url,len(result)))
                 # print(result)
@@ -122,7 +122,8 @@ class ArgumentsSpider(scrapy.Spider):
         return urls
 
     def returnSohuURLs(self,index,number,dataList):
-        '''用于批量提取搜狐新闻'''
+        '''用于批量提取搜狐新闻
+            过程：先模拟后台请求，得到json数据，分析得到文章的id，再将文章的网页前缀与文章id拼接，得到详情页地址'''
         extends = '&sceneId=1460&page=1&size=20'
         page = ''
         rang = number.split('-')
@@ -143,17 +144,18 @@ class ArgumentsSpider(scrapy.Spider):
         # 添加请求头和cookies
         response = requests.get(dataList[0]+parameter, headers=getHeader(), cookies=cookies)
         content = response.text
-        #
+        # 将conten字符格式转化为json格式，便于操作
         data = json.loads(content)
         urls = []
         for temp in (data):
             url = dataList[1] + str(temp['id']) + '_' + str(temp['authorId'])
             urls.append(url)
-        print(urls)
+        # print(urls)
         return urls
 
     def returnQQURLs(self,number,req):
-        '''用于批量提取腾讯新闻  只提取新闻，不提取专题'''
+        '''用于批量提取腾讯新闻  只提取新闻，不提取专题
+           过程：后台请求时，会携带上次请求所得的id作为参数'''
         # 腾讯新闻一次返回10 个新闻
         pageSize = 10
         rang = number.split('-')
@@ -174,10 +176,12 @@ class ArgumentsSpider(scrapy.Spider):
             # response = requests.get(url2)
             # 添加请求头和cookies
             response = requests.get(url2, headers=getHeader(), cookies=cookies)
+            # 将数据转为json格式
             conten = json.loads(response.text)
             dataList = conten.get('data')
             for temp in dataList:
-                if  (temp['article_type'])==0:
+                # article_tple为11代表该条新闻指定的是一个专题
+                if  (temp['article_type'])!=11:
                     url = temp['vurl']
                     id = temp['id']
                     urlList.append(url)
@@ -190,15 +194,8 @@ class ArgumentsSpider(scrapy.Spider):
         return urlList
 
     def returnTouTiaoURLs(self,index,number,req):
-        '''用于批量提取今日头条的新闻'''
-        # urlPar = urlparse(url)
-        # pathlist = urlPar.path.split('/')
-        # # 过滤掉空的path，便于确定 模块 index
-        # newList = list(filter(not_empty, pathlist))
-        # index = newList[-1]
-        # initUrl = 'https://www.toutiao.com/api/pc/feed/?utm_source=toutiao&widen=1'
-        # &max_behot_time=0&max_behot_time_tmp=0
-        # category=news_hot&
+        '''用于批量提取今日头条的新闻
+           过程：后台请求时，会携带上次请求中的max_behot_time的值作为参数'''
         max_behot_time = max_behot_time_tmp = 0
         category = index
         rang = number.split('-')
@@ -222,6 +219,7 @@ class ArgumentsSpider(scrapy.Spider):
             for data in dataList:
                 if 'article'.__eq__(data['article_genre']):
                     itemId = data['item_id']
+                    # 请求得到的json数据中，不会包含完整的详情页地址，需要与详情页前缀拼接
                     newsUrl = 'https://www.toutiao.com/a%s' % (itemId)
                     urlList.append(newsUrl)
             # print('urlList长度：%d'%(len(urlList)))

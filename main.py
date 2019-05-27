@@ -180,7 +180,7 @@ class MainScreen(QMainWindow,Ui_MainText):
             filePath = self.lineEdit.text()
             try:
                 cmd = "scrapy crawl argumentsSpider -a flag=file -a data="
-                # cmdline 调用scrapy，只能在改目录下运行，不能剪切到其他环境下运行
+                # cmdline 调用scrapy，只能在该环境下运行
                 # cmdline.execute((cmd + filePath).split())
                 # os方式调用，日志不能让日志显示在界面上
                 # os.system(cmd+filePath)

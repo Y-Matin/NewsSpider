@@ -69,6 +69,7 @@ def parseLocalFile(filepath):
     saveToText(title,text)
 
 def sendEmail(text):
+    '''借助SMTP服务器，实现发送邮件的功能'''
     my_sender = '724797522@qq.com'  # 发件人邮箱账号
     my_pass = 'fvrqcojpynkpbfbe'  # 发件人邮箱密码
     my_user = '724797522@qq.com'  # 收件人邮箱账号，我这边发送给自己
@@ -91,6 +92,7 @@ def not_empty(s):
     return s and s.strip()
 
 def getHeader():
+    '''添加头部信息，用于应对反爬虫'''
     header= {
         'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:67.0) Gecko/20100101 Firefox/67.0',
         'Accept':'text/javascript, text/html, application/xml, text/xml, */*',
