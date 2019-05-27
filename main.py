@@ -280,9 +280,11 @@ class MainScreen(QMainWindow,Ui_MainText):
         '''点击toolButton后，触发，显示文件对话框，供用户选择文件'''
         fileType = ''
         if self.inputTpye.__eq__('more'):
-            fileType ="excle files (*.xlsx)"
+            # excle文件格式包含 xlsx 和 xls
+            fileType ="excle files (*.xlsx *xls)"
         elif self.inputTpye.__eq__('local'):
-            fileType = "html files (*.html)"
+            # 网页格式包括 html和 htm
+            fileType = "html files (*.html *.htm)"
         absolute_path = QFileDialog.getOpenFileNames(self, 'Open file','/', fileType)
         filePath = absolute_path[0]
         self.lineEdit.setText('|'.join(filePath))
@@ -325,6 +327,8 @@ class settingsScreen(QWidget,Ui_settings):
             self.createConfig()
 
         config = configparser.ConfigParser()
+        # windows 记事本保存时只支持带BOM格式，为了兼容用记事本编辑过的文件能被正确读取，
+        # 最好把编码指定为 utf-8-sig
         config.read(self.configFile,encoding="utf-8-sig")
         isLink = config.getboolean(self.configForDB,self.linkDB)
         dbtype = config.get(self.configForDB,self.database)
