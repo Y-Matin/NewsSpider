@@ -44,7 +44,10 @@ class ArgumentsSpider(scrapy.Spider):
             self.logger.info('请注意入参个数计格式，flag疑似为空！')
 
     def parse(self, response):
-        self.logger.info(response.status)
+        # self.logger.info(response.status)
+        if response.status == 200:
+            print("返回码"+str(response.status))
+            return
         html = response.text
         doc = Document(html)
         summary = doc.summary()

@@ -193,7 +193,10 @@ class MainScreen(QMainWindow,Ui_MainText):
                 p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
                 while p.poll() is None:
-                    line = p.stdout.readline().decode('gb18030')
+                    # 调试环境
+                    line = p.stdout.readline().decode('utf-8',"ignore")
+                    # 正式环境
+                    # line = p.stdout.readline().decode('gb18030')
                     line = line.strip()
                     if line:
                         # print('output: [{}]'.format(line))
@@ -227,7 +230,9 @@ class MainScreen(QMainWindow,Ui_MainText):
                 import subprocess
                 p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
                 while p.poll() is None:
+                    # 调试环境
                     # line = p.stdout.readline().decode('utf-8', 'ignore')
+                    # 正式环境
                     line = p.stdout.readline().decode('gb18030')
                     line = line.strip()
                     if line:
