@@ -131,17 +131,18 @@ def testForMongodb(mongo_url,dbName,item):
 
 
 def main():
-    # # 测试批量
-    excleFilePath = r'c:\Users\YDS\Desktop\file\testForMore-副本.xlsx'  # testForMore.xlsx ; urls.xlsx
-    testForExcleFile(excleFilePath)
+    # 测试批量
+    # excleFilePath = r'c:\Users\YDS\Desktop\file\testForMore-副本.xlsx'  # testForMore.xlsx ; urls.xlsx
+    # testForExcleFile(excleFilePath)
     # # 测试单次
     # urlForSouhu = 'http://www.sohu.com/c/8/1460'
     # urlForQQ = 'https://news.qq.com/'
     # urlForToutiao = 'https://www.toutiao.com/ch/news_hot/'
-    # url = urlForQQ
-    # testForUrl(url)
+    urlFornonce = 'https://baijiahao.baidu.com/s?id=1634651940484099676'
+    url = urlFornonce
+    testForUrl(url)
     # 测试本地
-    # htmlFilePath = "C:/Users/YDS/Desktop/file/html/10年前让“清华”破例降60分录取的女生蒋方舟，现在过得如何了？.html|C:/Users/YDS/Desktop/file/html/69人院内感染丙肝，规则失守是最大敌人_江苏东台.html|C:/Users/YDS/Desktop/file/html/高考狂人张非4次高考、2次清华、1次北大、1次复旦，现在如何？.html|C:/Users/YDS/Desktop/file/html/个别标准组织暂停与华为合作 华为：不影响公司正常运作_产业.html|C:/Users/YDS/Desktop/file/html/还原南阳水氢车技术争议：专家称只加水是误解，关键在于制氢材料_汽车.html|C:/Users/YDS/Desktop/file/html/什么样的家庭出学霸？大数据研究结果，颠覆你的认知！.html|C:/Users/YDS/Desktop/file/html/微软、通用电气等致信美国政府：封杀中国企业将“引火烧身”.html|C:/Users/YDS/Desktop/file/html/微软等警告特朗普政府：封杀华为将削弱美创新能力--今日热点--国际--首页.html|C:/Users/YDS/Desktop/file/html/习近平总书记重要指示催人奋进 老英雄张富清事迹彰显奉献精神--高层--时政要闻--时政--首页.html"
+    # htmlFilePath = "C:/Users/YDS/Desktop/file/html/10年前让“清华”破例降60分录取的女生蒋方舟，现在过得如何了？.html"
     # testForHtmlFile(htmlFilePath)
 if __name__ == '__main__':
     main()

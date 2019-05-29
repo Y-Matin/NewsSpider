@@ -14,6 +14,7 @@ from NewsSpider.readability.readability import Document
 
 
 def removeTags(html):
+    '''去除HTML标签'''
     bs = bs4(html,'lxml')
     # 格式化html代码
     html = bs.prettify()
@@ -23,11 +24,11 @@ def removeTags(html):
 
     # 去掉多余的空行 \s{2,} 避免将文章中的空格替换为换行
     text=re.sub('\s{2,}', '\n', text)
-    # dc = re.compile(r'\s+', re.S)
-    # text = dc.sub('\n', text)
-    return text
+    # 去掉前后的空行
+    return text.strip()
 
 def saveToText(title,content):
+    '''将提取的正文保存为文本'''
     from main import settingsScreen
     config = configparser.ConfigParser()
     config.read(settingsScreen.configFile, encoding="utf-8-sig")
@@ -36,6 +37,7 @@ def saveToText(title,content):
     path = ''
     if not os.path.isabs(folderName):
         # 代表 该目录为初始目录，在该项目下
+        # 用于返回当前工作目录。
         curdir = os.getcwd()
         path = curdir + os.path.sep + folderName
     else:
@@ -47,8 +49,9 @@ def saveToText(title,content):
         os.makedirs(path)
 
     # 解决windows 下 文件名不合法问题
-    # 去掉\/|*字符，将 <>:?"替换为中文字符
+    # 去掉\/|*字符，
     titleFinally = re.sub('[\\\/|*]', '', title)
+    # u/U:表示unicode字符串 将 <>:?"替换为中文字符
     table = {ord(f): ord(t) for f, t in zip(
         u':?<>',
         u'：？《》')}
@@ -60,6 +63,7 @@ def saveToText(title,content):
     return path+os.path.sep+titleFinally+'.txt'
 
 def parseLocalFile(filepath):
+    '''解析本地文件'''
     file = open(filepath,'r',encoding='utf-8')
     text = file.read()
     doc = Document(text)

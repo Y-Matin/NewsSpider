@@ -213,7 +213,7 @@ class MainScreen(QMainWindow,Ui_MainText):
                     QMessageBox.critical(self, '提示', '批量爬取失败！')
                     self.failedCount = self.failedCount + 1
             except BaseException as e:
-                self.log.show('程序发生异常：', traceback.print_exc())
+                self.log.show('程序发生异常：\n', traceback.print_exc())
             self.statusbar.showMessage('结果(成功：'+str(self.successCount)+', 失败：'+str(self.failedCount)+')', 0)
         elif self.inputTpye.__eq__('once'):
             print('当前的爬取方式是 单次爬取')
@@ -231,9 +231,9 @@ class MainScreen(QMainWindow,Ui_MainText):
                 p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
                 while p.poll() is None:
                     # 调试环境
-                    # line = p.stdout.readline().decode('utf-8', 'ignore')
+                    line = p.stdout.readline().decode('utf-8', 'ignore')
                     # 正式环境
-                    line = p.stdout.readline().decode('gb18030')
+                    # line = p.stdout.readline().decode('gb18030')
                     line = line.strip()
                     if line:
                         print('output: [{}]'.format(line))
@@ -250,7 +250,7 @@ class MainScreen(QMainWindow,Ui_MainText):
                     QMessageBox.critical(self, '提示', '爬取失败！')
                     self.failedCount = self.failedCount + 1
             except BaseException as e:
-                self.log.show('程序发生异常：',traceback.print_exc())
+                self.log.show('程序发生异常：\n',traceback.print_exc())
             self.statusbar.showMessage('结果(成功：'+str(self.successCount)+', 失败：'+str(self.failedCount)+')', 0)
         elif self.inputTpye.__eq__('local'):
             print('当前的爬取方式是 本地导入')

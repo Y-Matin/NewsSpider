@@ -45,9 +45,9 @@ class ArgumentsSpider(scrapy.Spider):
 
     def parse(self, response):
         # self.logger.info(response.status)
-        if response.status == 200:
-            print("返回码"+str(response.status))
-            return
+        # if response.status == 200:
+        #     print("返回码"+str(response.status))
+        #     return
         html = response.text
         doc = Document(html)
         summary = doc.summary()
