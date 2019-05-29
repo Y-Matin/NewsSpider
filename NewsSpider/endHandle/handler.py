@@ -56,7 +56,9 @@ def saveToText(title,content):
         u':?<>',
         u'：？《》')}
     titleFinally = titleFinally.translate(table)
-    with open(path+os.path.sep+titleFinally+'.txt','wb') as f:
+    # detailPath = path+os.path.sep+titleFinally+'.txt'
+    detailPath = path+'/'+titleFinally+'.txt'
+    with open(detailPath,'wb') as f:
         f.write(content.encode('utf-8'))
         f.close()
     print('\nsave<'+titleFinally+'>成功！')

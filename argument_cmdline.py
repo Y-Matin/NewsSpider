@@ -136,10 +136,10 @@ def main():
     # testForExcleFile(excleFilePath)
     # # 测试单次
     # urlForSouhu = 'http://www.sohu.com/c/8/1460'
-    # urlForQQ = 'https://news.qq.com/'
+    urlForQQ = 'https://news.qq.com/'
     # urlForToutiao = 'https://www.toutiao.com/ch/news_hot/'
-    urlFornonce = 'https://baijiahao.baidu.com/s?id=1634651940484099676'
-    url = urlFornonce
+    # urlFornonce = 'https://baijiahao.baidu.com/s?id=1634651940484099676'
+    url = urlForQQ
     testForUrl(url)
     # 测试本地
     # htmlFilePath = "C:/Users/YDS/Desktop/file/html/10年前让“清华”破例降60分录取的女生蒋方舟，现在过得如何了？.html"

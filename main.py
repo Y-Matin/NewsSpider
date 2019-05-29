@@ -5,13 +5,15 @@ import threading
 import traceback
 
 from PyQt5.QtCore import *
+from PyQt5.QtGui import QColor
+
 from MainGUI import *
 import os
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox, QWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox, QWidget, QColorDialog
 from NewsSpider.endHandle.handler import sendEmail
 import NewsSpider.settings
 import NewsSpider.spiders
@@ -221,10 +223,6 @@ class MainScreen(QMainWindow,Ui_MainText):
             cmd = "scrapy crawl argumentsSpider -a flag=url -a data="
             # cmdline.execute((cmd + url).split())
             try:
-                # os.system(cmd + url)
-                # process.crawl('argumentsSpider', flag='url', data=url)
-                # process.start()
-
                 shell_cmd = cmd + url
                 cmd = shlex.split(shell_cmd)
                 import subprocess
@@ -295,8 +293,14 @@ class MainScreen(QMainWindow,Ui_MainText):
         self.lineEdit.setText('|'.join(filePath))
 
     def showLog(self, text):
+        # 设置字体颜色
+        # if 'save' in text:
+        #     col = QColor(255,0,0)  # 红色
+        #     if col.isValid():
+        #         self.textBrowser.setTextColor(col)
         self.textBrowser.append(text)
-
+        # col = QColor(0, 0, 0)  # 黑色
+        # self.textBrowser.setTextColor(col)
 
 class settingsScreen(QWidget,Ui_settings):
     '''软件的设置界面'''
