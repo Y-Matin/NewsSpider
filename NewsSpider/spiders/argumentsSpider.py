@@ -19,9 +19,9 @@ class ArgumentsSpider(scrapy.Spider):
     name = 'argumentsSpider'
     start_urls = []
     domainURLS = {
-        'www.sohu.com/c/': ['http://v2.sohu.com/public-api/feed?scene=CATEGORY','http://www.sohu.com/a/'],
-        'news.qq.com/': 'https://pacaio.match.qq.com/irs/rcd?cid=137&token=d0f13d594edfc180f5bf6b845456f3ea&id=&ext=top',
-        'www.toutiao.com/ch/':'https://www.toutiao.com/api/pc/feed/?utm_source=toutiao&widen=1'}
+        'www.sohu.com/c': ['http://v2.sohu.com/public-api/feed?scene=CATEGORY','http://www.sohu.com/a/'],
+        'news.qq.com': 'https://pacaio.match.qq.com/irs/rcd?cid=137&token=d0f13d594edfc180f5bf6b845456f3ea&id=&ext=top',
+        'www.toutiao.com/ch':'https://www.toutiao.com/api/pc/feed/?utm_source=toutiao&widen=1'}
 
     def __init__(self,flag,data, *args, **kwargs):
         ''' 从命令行中获取数据
