@@ -1,5 +1,6 @@
 import codecs
 import configparser
+import io
 import shlex
 import threading
 import traceback
@@ -196,9 +197,9 @@ class MainScreen(QMainWindow,Ui_MainText):
 
                 while p.poll() is None:
                     # 调试环境
-                    line = p.stdout.readline().decode('utf-8',"ignore")
+                    # line = p.stdout.readline().decode('utf-8',"ignore")
                     # 正式环境
-                    # line = p.stdout.readline().decode('gb18030')
+                    line = p.stdout.readline().decode('gb18030',"ignore")
                     line = line.strip()
                     if line:
                         # print('output: [{}]'.format(line))
@@ -229,9 +230,9 @@ class MainScreen(QMainWindow,Ui_MainText):
                 p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
                 while p.poll() is None:
                     # 调试环境
-                    line = p.stdout.readline().decode('utf-8', 'ignore')
+                    # line = p.stdout.readline().decode('utf-8', 'ignore')
                     # 正式环境
-                    # line = p.stdout.readline().decode('gb18030')
+                    line = p.stdout.readline().decode('gb18030',"ignore")
                     line = line.strip()
                     if line:
                         print('output: [{}]'.format(line))
