@@ -62,7 +62,8 @@ def saveToText(title,content):
         f.write(content.encode('utf-8'))
         f.close()
     print('\nsave<%s>成功！' % titleFinally)
-    return path+os.path.sep+titleFinally+'.txt'
+    # return path+os.path.sep+titleFinally+'.txt'
+    return path+'/'+titleFinally+'.txt'
 
 def parseLocalFile(filepath):
     '''解析本地文件'''

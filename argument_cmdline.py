@@ -138,7 +138,7 @@ def main():
     # urlForSouhu = 'http://www.sohu.com/c/8/1460'
     # urlForQQ = 'https://news.qq.com/'
     # urlForToutiao = 'https://www.toutiao.com/ch/news_hot/'
-    urlFornonce = 'http://henan.china.com.cn/life/2019/0407/5893042.shtml'
+    urlFornonce = 'https://baijiahao.baidu.com/s?id=1634651940484099676'
     url = urlFornonce
     testForUrl(url)
     # 测试本地

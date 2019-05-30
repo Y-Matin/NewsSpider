@@ -11,7 +11,7 @@ from NewsSpider.readability.readability import Document
 
 class GetTextSpider (scrapy.Spider):
     name = 'getText'
-    start_urls = ['http://news.iciba.com/study/bilingual/1580005.shtml']
+    start_urls = ['https://baijiahao.baidu.com/s?id=1634611295737932354']
 
     def parse(self, response):
         html = response.text
