@@ -101,6 +101,8 @@ class MainScreen(QMainWindow,Ui_MainText):
         self.help.triggered.connect(lambda:self.showSettingsByIndex(2))
         self.feedBack.triggered.connect(lambda:self.showSettingsByIndex(1))
         self.about.triggered.connect(lambda:self.showSettingsByIndex(3))
+
+        self.action.triggered.connect(self.clickOnExtract)
         # 关联按钮事件
         self.reset.clicked.connect(self.clickOnReset)
         self.extract.clicked.connect(self.clickOnExtract)
@@ -197,9 +199,9 @@ class MainScreen(QMainWindow,Ui_MainText):
 
                 while p.poll() is None:
                     # 调试环境
-                    # line = p.stdout.readline().decode('utf-8',"ignore")
+                    line = p.stdout.readline().decode('utf-8',"ignore")
                     # 正式环境
-                    line = p.stdout.readline().decode('gb18030',"ignore")
+                    # line = p.stdout.readline().decode('gb18030',"ignore")
                     line = line.strip()
                     if line:
                         # print('output: [{}]'.format(line))
@@ -230,9 +232,9 @@ class MainScreen(QMainWindow,Ui_MainText):
                 p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
                 while p.poll() is None:
                     # 调试环境
-                    # line = p.stdout.readline().decode('utf-8', 'ignore')
+                    line = p.stdout.readline().decode('utf-8', 'ignore')
                     # 正式环境
-                    line = p.stdout.readline().decode('gb18030',"ignore")
+                    # line = p.stdout.readline().decode('gb18030',"ignore")
                     line = line.strip()
                     if line:
                         print('output: [{}]'.format(line))
