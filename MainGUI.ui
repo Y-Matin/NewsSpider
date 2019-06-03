@@ -202,17 +202,10 @@ p, li { white-space: pre-wrap; }
     <addaction name="about"/>
     <addaction name="update"/>
    </widget>
-   <widget class="QMenu" name="menu_3">
-    <property name="title">
-     <string>提取</string>
-    </property>
-    <addaction name="action"/>
-   </widget>
    <addaction name="menusetting"/>
    <addaction name="menus"/>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
-   <addaction name="menu_3"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="about">
