@@ -77,9 +77,9 @@ def parseLocalFile(filepath):
 
 def sendEmail(text):
     '''借助SMTP服务器，实现发送邮件的功能'''
-    my_sender = '724797522@qq.com'  # 发件人邮箱账号
-    my_pass = 'fvrqcojpynkpbfbe'  # 发件人邮箱密码
-    my_user = '724797522@qq.com'  # 收件人邮箱账号，我这边发送给自己
+    my_sender = 'XXXX@qq.com'  # 发件人邮箱账号
+    my_pass = 'XXXX'  # 发件人邮箱密码
+    my_user = 'XXX@qq.com'  # 收件人邮箱账号，我这边发送给自己
     ret = True
     try:
         msg = MIMEText(text, 'plain', 'utf-8')
